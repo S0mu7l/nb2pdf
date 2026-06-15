@@ -1,0 +1,6 @@
+# Keep in sync with pyproject.toml; for pip install -r
+# 与 pyproject.toml 保持一致，供 pip install -r 使用
+nbconvert[webpdf]>=7.16.0
+nbformat>=5.9.0
+playwright>=1.40.0
+Pillow>=10.0.0

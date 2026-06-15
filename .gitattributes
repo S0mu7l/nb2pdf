@@ -1,0 +1,15 @@
+# Normalize line endings on Windows
+* text=auto
+
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.txt text eol=lf
+*.ps1 text eol=crlf
+*.spec text eol=lf
+
+*.ipynb text eol=lf
+*.png binary
+*.exe binary
+*.zip binary
+*.rar binary

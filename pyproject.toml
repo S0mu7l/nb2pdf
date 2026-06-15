@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nb2pdf"
+version = "1.1.2"
+description = "Convert Jupyter Notebook to text-based PDF (embedded images, trimmed output) / 将 Jupyter Notebook 转为文本型 PDF"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "NLP Course" }]
+keywords = ["jupyter", "notebook", "pdf", "nbconvert", "playwright"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Education",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Education",
+]
+dependencies = [
+    "nbconvert[webpdf]>=7.16.0",
+    "nbformat>=5.9.0",
+    "playwright>=1.40.0",
+    "Pillow>=10.0.0",
+]
+
+[project.scripts]
+nb2pdf = "nb2pdf.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/example/nb2pdf"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nb2pdf*"]

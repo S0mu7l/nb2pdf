@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+dist-packages/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# PyInstaller build artifacts / 打包中间产物
+build/
+dist/
+
+# Release binaries — publish via GitHub Releases, not git
+# 发布二进制通过 Releases 分发，不提交到 git
+release/nb2pdf/
+release/*.exe
+release/*.zip
+release/*.rar
+release/*.7z
+
+# Build scripts & samples — local only / 不上传：打包脚本与示例
+scripts/
+examples/
+requirements-build.txt
+
+# IDE / editor / local tooling
+.vscode/
+.specstory/
+.cursorindexingignore
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & temp
+*.log
+*.tmp
