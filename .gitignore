@@ -16,13 +16,17 @@ env/
 build/
 dist/
 
-# Release binaries — publish via GitHub Releases, not git
-# 发布二进制通过 Releases 分发，不提交到 git
-release/nb2pdf/
-release/*.exe
-release/*.zip
-release/*.rar
-release/*.7z
+# App icon assets — local / build-time only
+# 应用图标资源，本地生成，不提交 git
+assets/
+
+# Release dir — publish via GitHub Releases, not git
+# 发布目录通过 Releases 分发，不提交 git
+release/
+
+# PNG images — binary assets, not tracked
+# PNG 图片为二进制资源，不提交 git
+*.png
 
 # Build scripts & samples — local only / 不上传：打包脚本与示例
 scripts/
