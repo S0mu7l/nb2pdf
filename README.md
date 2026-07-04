@@ -11,7 +11,7 @@ Convert Jupyter Notebook (`.ipynb`) to **text-based PDF** with selectable text a
 
 | Mode / 方式  | For / 适合人群                            | Details / 说明                                                                   |
 | ---------- | ------------------------------------- | ------------------------------------------------------------------------------ |
-| **exe**    | Users without Python / 不想装 Python 的用户 | Download from **GitHub Releases** — see [release/README.md](release/README.md) |
+| **exe**    | Users without Python / 不想装 Python 的用户 | Download from **GitHub Releases** — see [release](https://github.com/S0mu7l/nb2pdf/releases)|
 | **Source** | Developers / 开发者、需要自定义的用户             | Clone repo and install with Python — see below / 克隆本仓库，用 Python 安装运行（见下文）      |
 
 
@@ -189,6 +189,7 @@ nb2pdf/
 │   ├── gui.py             # Tkinter GUI / 图形界面
 │   ├── images.py
 │   └── runtime.py
+<<<<<<< HEAD
 ├── examples/              # Sample notebooks / 示例 notebook
 ├── scripts/               # Build scripts / 打包脚本
 │   ├── build_exe_nuitka.ps1  # Official build (Nuitka) / 官方打包脚本
@@ -198,6 +199,8 @@ nb2pdf/
 └── release/               # Exe release dir / exe 发布目录
     ├── README.md          # Exe-mode guide / exe 模式说明
     └── nb2pdf.exe         # Build output (gitignored) / 构建产物
+=======
+>>>>>>> e1c516440f9fcb3cbd3928f30355476a3bf43fe9
 ```
 
 

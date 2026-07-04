@@ -1,6 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
+nb2pdf/_buildlang.py
 *.egg-info/
 .eggs/
 *.egg
