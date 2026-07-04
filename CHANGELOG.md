@@ -1,5 +1,24 @@
 # Changelog / 更新日志
 
+## 1.2.0 — 2026-07-04
+
+### Added / 新增
+
+- **GUI / 图形界面**：Tkinter GUI with multi-file batch selection, output-directory picker, progress bar, log panel and cancel; double-click the exe (or run `nb2pdf` / `nb2pdf gui`) to open / 图形界面支持批量多选 `.ipynb`、指定输出目录、进度与日志显示、取消转换；双击 exe 或运行 `nb2pdf gui` 即可打开
+- **App icon / 应用图标**：Custom PDF-document icon for the exe and the GUI window (`assets/nb2pdf.ico`, generated from `icons.png`) / exe 与窗口使用自定义 PDF 文档图标
+- **Two language builds / 中英双版本**：Separate `nb2pdf-zh.exe` (简体中文界面) and `nb2pdf-en.exe` (English UI); **both** fully support Chinese/CJK file paths / 分别打包中文与英文界面版本，两者均完整支持中文路径；源码运行可用 `NB2PDF_LANG=zh|en` 切换
+- **About / 作者信息**：Author `s0mu7l` with clickable GitHub link (bottom-right of the GUI) / 界面右下角显示作者与 GitHub 链接（<https://github.com/S0mu7l/nb2pdf>）
+- **`-d/--output-dir`**：CLI batch conversion into one directory / 命令行批量转换统一输出目录
+- Notebooks from **different directories** can be mixed in one batch (GUI & CLI) / 支持一次转换位于不同目录下的多个 notebook
+
+### Changed / 变更
+
+- **Packaging / 打包**：Switched from PyInstaller to **Nuitka** onefile (`scripts/build_exe_nuitka.ps1`); console attaches when run from a terminal, hidden when double-clicked / 打包方案由 PyInstaller 改为 Nuitka 单文件；终端运行有输出，双击运行不闪黑框
+- Onefile runtime extracts to ASCII cache dir and is **cached across runs** (faster startup) / 运行时解压到英文缓存目录并跨运行复用，启动更快
+- `runtime.py` now supports both Nuitka and PyInstaller frozen modes (bundled nbconvert templates located via `JUPYTER_PATH`) / 冻结运行时同时兼容 Nuitka 与 PyInstaller
+
+---
+
 ## 1.1.2 — 2026-06-15
 
 ### Fixed / 修复
