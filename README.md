@@ -1,5 +1,7 @@
 # nb2pdf
 
+![image](https://raw.githubusercontent.com/S0mu7l/nb2pdf/f198021a3885701a4a38aa7cb8c46686feebb5cb/nb2pdf-banner.webp)
+
 English | [中文说明](#nb2pdf-中文说明)
 
 Convert Jupyter Notebook (`.ipynb`) to **text-based PDF** with selectable text and embedded images — ideal for reading and printing course materials.
