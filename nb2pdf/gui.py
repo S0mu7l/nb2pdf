@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 import queue
+import sys
 import threading
 import tkinter as tk
 import webbrowser
@@ -115,11 +116,14 @@ class App:
         self.progress.pack(fill="x", padx=_PAD)
 
         self.status_var = tk.StringVar(value=tr("ready"))
-        ttk.Label(self.root, textvariable=self.status_var, padding=(_PAD, 4)).pack(fill="x")
+        self.status_label = ttk.Label(self.root, textvariable=self.status_var, padding=(_PAD, 4))
+        self.status_label.pack(fill="x")
 
         log_frame = ttk.Frame(self.root, padding=(_PAD, 0, _PAD, 0))
         log_frame.pack(fill="both", expand=True)
-        self.log_text = tk.Text(log_frame, height=8, state="disabled", wrap="none")
+        # wrap="word": long paths/messages wrap to the window width instead
+        # of running off-screen / 长路径与消息按窗口宽度自动换行，不再横向溢出
+        self.log_text = tk.Text(log_frame, height=8, state="disabled", wrap="word")
         log_ysb = ttk.Scrollbar(log_frame, orient="vertical", command=self.log_text.yview)
         self.log_text.configure(yscrollcommand=log_ysb.set)
         self.log_text.grid(row=0, column=0, sticky="nsew")
@@ -185,6 +189,36 @@ class App:
         self.convert_btn.config(state=state)
         self.install_btn.config(state=state)
         self.cancel_btn.config(state="normal" if running else "disabled")
+        if running:
+            self.status_label.config(foreground="")
+
+    def _notify_done(self, text: str, failed: bool) -> None:
+        """Completion notice inside the window — no popup dialog.
+        完成通知显示在窗口内，不再弹出对话框。"""
+        self.status_var.set(text)
+        self.log(text)
+        self.status_label.config(foreground="#b91c1c" if failed else "#15803d")
+        # Flash the taskbar button so completion is still noticed when the
+        # window is in the background / 任务栏闪烁提示，窗口在后台时也能察觉完成
+        if sys.platform == "win32":
+            try:
+                import ctypes
+
+                class _FLASHWINFO(ctypes.Structure):
+                    _fields_ = [
+                        ("cbSize", ctypes.c_uint),
+                        ("hwnd", ctypes.c_void_p),
+                        ("dwFlags", ctypes.c_uint),
+                        ("uCount", ctypes.c_uint),
+                        ("dwTimeout", ctypes.c_uint),
+                    ]
+
+                hwnd = ctypes.windll.user32.GetParent(self.root.winfo_id())
+                # FLASHW_ALL | FLASHW_TIMERNOFG: flash until window is focused
+                info = _FLASHWINFO(ctypes.sizeof(_FLASHWINFO), hwnd, 0x3 | 0xC, 0, 0)
+                ctypes.windll.user32.FlashWindowEx(ctypes.byref(info))
+            except Exception:
+                pass
 
     def log(self, text: str) -> None:
         self.log_text.config(state="normal")
@@ -260,10 +294,12 @@ class App:
 
         try:
             code = install_browser()
+            failed = code != 0
             msg = tr("install_ok") if code == 0 else tr("install_fail_code", code=code)
         except Exception as exc:
+            failed = True
             msg = tr("install_fail", err=exc)
-        self.msg_queue.put(("install_done", msg))
+        self.msg_queue.put(("install_done", msg, failed))
 
     # ----------------------------------------------------------- msg pump
 
@@ -281,18 +317,10 @@ class App:
                 elif kind == "done":
                     ok, fail = msg[1], msg[2]
                     self._set_running(False)
-                    summary = tr("done_summary", ok=ok, fail=fail)
-                    self.status_var.set(summary)
-                    self.log(summary)
-                    if fail:
-                        messagebox.showwarning("nb2pdf", summary)
-                    elif ok:
-                        messagebox.showinfo("nb2pdf", summary)
+                    self._notify_done(tr("done_summary", ok=ok, fail=fail), failed=bool(fail))
                 elif kind == "install_done":
                     self._set_running(False)
-                    self.status_var.set(msg[1])
-                    self.log(msg[1])
-                    messagebox.showinfo("nb2pdf", msg[1])
+                    self._notify_done(msg[1], failed=msg[2])
         except queue.Empty:
             pass
         self.root.after(100, self._poll_queue)
